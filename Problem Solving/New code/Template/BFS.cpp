@@ -1,0 +1,23 @@
+template <typename T>
+void bfs(const vector<vector<T>> &adj, T source) {
+    int N = adj.size();
+    queue<T> q;
+    vector<bool> vis(N, false);
+    vector<int> d(N, -1);
+
+    q.push(source);
+    vis[source] = true;
+    d[source] = 0;
+
+    while (!q.empty()) {
+        T v = q.front();
+        q.pop();
+        for (T u : adj[v]) {
+            if (!vis[u]) {
+                vis[u] = true;
+                q.push(u);
+                d[u] = d[v] + 1;
+            }
+        }
+    }
+}

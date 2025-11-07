@@ -1,0 +1,63 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+bool dfs(int node, int parent, vector<int> &visited, vector<vector<int>> &adj)
+{
+    visited[node] = 1;
+    for (int neighbor : adj[node])
+    {
+        if (!visited[neighbor])
+        {
+            if (dfs(neighbor, node, visited, adj))
+                return true;
+        }
+        else if (neighbor != parent)
+        {
+            return true; 
+        }
+    }
+    return false;
+}
+
+void solve()
+{
+    int n, m;
+    cin >> n >> m;
+
+    vector<vector<int>> adj(n + 1);
+    vector<int> visited(n + 1, 0);
+
+    for (int i = 0; i < m; i++)
+    {
+        int u, v;
+        cin >> u >> v;
+        adj[u].push_back(v);
+        adj[v].push_back(u);
+    }
+
+    if (dfs(1, -1, visited, adj))
+    {
+        cout << "NO\n"; 
+        return;
+    }
+
+    for (int i = 1; i <= n; i++)
+    {
+        if (!visited[i])
+        { 
+            cout << "NO\n";
+            return;
+        }
+    }
+
+    cout << "YES\n";
+}
+
+int main()
+{
+    ios_base::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    solve();
+    return 0;
+}

@@ -1,0 +1,50 @@
+template <typename T>
+T checkKthBit(T x, int k) {
+    return (x >> k) & 1;
+}
+
+template <typename T>
+void printOnBits(T x) {
+    for (int k = 0; k < sizeof(T) * 8; k++) {
+        if (checkKthBit(x, k)) {
+            cout << k << ' ';
+        }
+    }
+    cout << '\n';
+}
+
+template <typename T>
+int countOnBits(T x) {
+    int ans = 0;
+    for (int k = 0; k < sizeof(T) * 8; k++) {
+        if (checkKthBit(x, k)) {
+            ans++;
+        }
+    }
+    return ans;
+}
+
+template <typename T>
+bool isEven(T x) {
+    return !(x & 1);
+}
+
+template <typename T>
+T setKthBit(T x, int k) {
+    return x | (1 << k);
+}
+
+template <typename T>
+T unsetKthBit(T x, int k) {
+    return x & (~(1 << k));
+}
+
+template <typename T>
+T toggleKthBit(T x, int k) {
+    return x ^ (1 << k);
+}
+
+template <typename T>
+bool isPowerOf2(T x) {
+    return x > 0 && (x & (x - 1)) == 0;
+}
