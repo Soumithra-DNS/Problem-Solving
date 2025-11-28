@@ -1,0 +1,33 @@
+{
+  "Modular Arithmetic": {
+    "prefix": "modutil",
+    "description": "Binary exponentiation, GCD, and modular inverse",
+    "body": [
+      "template <typename T>",
+      "T binExp(T a, T b, T m) {",
+      "    T res = 1;",
+      "    a %= m;",
+      "    while (b > 0) {",
+      "        if (b & 1) res = res * a % m;",
+      "        a = a * a % m;",
+      "        b >>= 1;",
+      "    }",
+      "    return res;",
+      "}",
+      "",
+      "template <typename T>",
+      "T gcd(T a, T b) {",
+      "    return b == 0 ? a : gcd(b, a % b);",
+      "}",
+      "",
+      "template <typename T>",
+      "void modInverse(T a, T m) {",
+      "    if (gcd(a, m) != 1) {",
+      "        cout << \"Inverse doesn't exist\\n\";",
+      "    } else {",
+      "        cout << binExp(a, m - 2, m) << \"\\n\";",
+      "    }",
+      "}"
+    ]
+  }
+}

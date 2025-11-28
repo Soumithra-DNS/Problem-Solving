@@ -1,0 +1,36 @@
+{
+  "Sqrt Decomposition": {
+    "prefix": "sqrtdecomp",
+    "description": "Range sum and point update using Square Root Decomposition",
+    "body": [
+      "vector<int> seg, arr;",
+      "int n, len;",
+      "",
+      "void build() {",
+      "    len = sqrt(n) + 1;",
+      "    seg.assign(len, 0);",
+      "    for (int i = 0; i < n; ++i)",
+      "        seg[i / len] += arr[i];",
+      "}",
+      "",
+      "int query(int l, int r) {",
+      "    int sum = 0;",
+      "    for (int i = l; i <= r;) {",
+      "        if (i % len == 0 && i + len - 1 <= r) {",
+      "            sum += seg[i / len];",
+      "            i += len;",
+      "        } else {",
+      "            sum += arr[i];",
+      "            ++i;",
+      "        }",
+      "    }",
+      "    return sum;",
+      "}",
+      "",
+      "void update(int index, int value) {",
+      "    seg[index / len] += value - arr[index];",
+      "    arr[index] = value;",
+      "}"
+    ]
+  }
+}
