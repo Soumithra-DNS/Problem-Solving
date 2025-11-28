@@ -1,0 +1,103 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define int long long
+#define ull unsigned long long
+#define ld long double
+#define pb push_back
+#define mp make_pair
+#define pf push_front
+#define all(v) (v).begin(), (v).end()
+#define rall(v) (v).rbegin(), (v).rend()
+#define sz(x) (int)(x).size()
+#define ff first
+#define ss second
+
+const int MOD = 1e9 + 7;
+const int INF = 1e18;
+const ld PI = 3.141592653589793238462;
+const ld EPS = 1e-9;
+const int N = 3e5 + 9;
+
+template <typename T>
+void read(vector<T> &v)
+{
+    for (auto &x : v)
+        cin >> x;
+}
+
+template <typename T>
+void show(const T &container)
+{
+    for (const auto &x : container)
+        cout << x << " ";
+    cout << "\n";
+}
+
+vector<int> bit(N), arr(N);
+int n;
+
+void update(int idx, int value)
+{
+    for (; idx <= n; idx += idx & -idx)
+        bit[idx] += value;
+}
+
+int prefixSum(int idx)
+{
+    int sum = 0;
+    for (; idx > 0; idx -= idx & -idx)
+        sum += bit[idx];
+    return sum;
+}
+
+int query(int l, int r)
+{
+    return prefixSum(r) - prefixSum(l - 1);
+}
+
+void solve()
+{
+    int q;
+    cin >> n >> q;
+
+    for (int i = 1; i <= n; ++i)
+    {
+        cin >> arr[i];
+        update(i, arr[i]);
+    }
+
+    while (q--)
+    {
+        int type;
+        cin >> type;
+
+        if (type == 1)
+        {
+            int idx, val;
+            cin >> idx >> val;
+            int diff = val - arr[idx];
+            arr[idx] = val;
+            update(idx, diff);
+        }
+        else
+        {
+            int l, r;
+            cin >> l >> r;
+            cout << query(l, r) << '\n';
+        }
+    }
+}
+
+int32_t main()
+{
+    ios_base::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int t = 1;
+    //cin >> t;
+    while (t--)
+        solve();
+
+    return 0;
+}

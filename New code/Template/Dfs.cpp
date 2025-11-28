@@ -1,0 +1,9 @@
+template <typename T>
+void dfs(T node, const vector<vector<T>> &adj, vector<bool> &vis) {
+    vis[node] = true;
+    for (const T &child : adj[node]) {
+        if (!vis[child]) {
+            dfs(child, adj, vis);
+        }
+    }
+}

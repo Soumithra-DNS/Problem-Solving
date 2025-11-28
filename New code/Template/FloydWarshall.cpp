@@ -1,0 +1,24 @@
+void floydWarshall(vector<vector<int>> &d) {
+    int n = d.size();
+    const int INF = 1e9;
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            if (d[i][j] == -1) d[i][j] = INF;
+            if (i == j) d[i][j] = 0;
+        }
+    }
+    for (int k = 0; k < n; k++) {
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if (d[i][k] < INF && d[k][j] < INF) {
+                    d[i][j] = min(d[i][j], d[i][k] + d[k][j]);
+                }
+            }
+        }
+    }
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            if (d[i][j] == INF) d[i][j] = -1;
+        }
+    }
+}

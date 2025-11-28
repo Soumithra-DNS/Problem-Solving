@@ -1,0 +1,87 @@
+// Lowest Common Ancestor (LCA) Template
+const int LOG = 20; // Maxi depth for binary lifting
+vector<int> adj[N];
+vector<vector<int>> anc(N, vector<int>(LOG, -1));
+vector<int> depth(N, 0);
+
+// DFS to initialize ancestor table and depth array
+void dfs(int u, int par)
+{
+    if (par != -1)
+    {
+        depth[u] = depth[par] + 1;
+        anc[u][0] = par;
+        for (int i = 1; i < LOG; i++)
+        {
+            int v = anc[u][i - 1];
+            if (v == -1)
+                break;
+            anc[u][i] = anc[v][i - 1];
+        }
+    }
+    for (int v : adj[u])
+    {
+        if (v == par)
+            continue;
+        dfs(v, u);
+    }
+}
+
+// Function to find the k-th ancestor of a node
+int getAncestor(int u, int k)
+{
+    for (int i = 0; i < LOG; i++)
+    {
+        if (k & (1 << i))
+        {
+            u = anc[u][i];
+            if (u == -1)
+                return -1;
+        }
+    }
+    return u;
+}
+
+// Function to find the LCA of two nodes
+int lca(int u, int v)
+{
+    if (depth[u] > depth[v])
+        u = getAncestor(u, depth[u] - depth[v]);
+    if (depth[v] > depth[u])
+        v = getAncestor(v, depth[v] - depth[u]);
+
+    if (u == v)
+        return u;
+
+    for (int i = LOG - 1; i >= 0; i--)
+    {
+        if (anc[u][i] != anc[v][i])
+        {
+            u = anc[u][i];
+            v = anc[v][i];
+        }
+    }
+    return anc[u][0];
+}
+
+// Example usage function
+void solve()
+{
+    int n, m;
+    cin >> n >> m;
+    for (int i = 1; i < n; i++)
+    {
+        int boss;
+        cin >> boss;
+        adj[i].push_back(boss);
+        adj[boss].push_back(i);
+    }
+    dfs(0, -1);
+
+    for (int i = 0; i < m; i++)
+    {
+        int u, v;
+        cin >> u >> v;
+        cout << lca(u, v) << "\n";
+    }
+}
