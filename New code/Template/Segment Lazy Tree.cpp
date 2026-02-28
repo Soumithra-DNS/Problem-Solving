@@ -113,12 +113,13 @@ int32_t main() {
     ios_base::sync_with_stdio(0);
     cin.tie(0);
     cout.tie(0);
-    int t;
-    cin >> t;
+    int test;
+    cin >> test;
     while (t--) {
         memset(t, 0, sizeof t);
         memset(arr, 0, sizeof arr);
         solve();
     }
     return 0;
+
 }
